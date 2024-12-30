@@ -59,6 +59,7 @@ export function InputSelect<TItem>({
             <div
               className="RampInputSelect--input"
               onClick={(event) => {
+                console.log(getDropdownPosition(event.target))
                 setDropdownPosition(getDropdownPosition(event.target))
                 toggleProps.onClick(event)
               }}
@@ -119,11 +120,12 @@ export function InputSelect<TItem>({
 
 const getDropdownPosition: GetDropdownPositionFn = (target) => {
   if (target instanceof Element) {
-    const { top, left } = target.getBoundingClientRect()
-    const { scrollY } = window
+    const { top, left, height } = target.getBoundingClientRect()
+    const scrollY = window.scrollY || window.pageYOffset;
+    const scrollX = window.scrollX || window.pageXOffset;
     return {
-      top: scrollY + top + 63,
-      left,
+      top: scrollY + top + height,
+      left: scrollX + left,
     }
   }
 
